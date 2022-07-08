@@ -1,5 +1,5 @@
 import Joi from "joi";
-import validateJoiSchema from "../validateJoiSchema";
+import validateJoiSchema from "./../validateJoiSchema.js";
 
 function validateLogin(req, res, next) {
     const loginSchema = Joi.object({
