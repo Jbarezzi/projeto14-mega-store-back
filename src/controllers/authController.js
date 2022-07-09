@@ -11,13 +11,14 @@ export async function createUser(req, res) {
   const userSchema = joi.object({
     name: joi.string().required(),
     email: joi.string().email().required(),
-    cpf: joi.string().pattern(new RegExp('^\d{3}\.\d{3}\.\d{3}\-\d{2}$')).required(),
-    password: joi.string().required(),
+    cpf: joi.string().pattern(new RegExp('^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$')).required(),
     password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{5,20}$')).required(),
     confirmPassword: joi.ref('password')
   })
 
   const { error } = userSchema.validate(user, { abortEarly: false });
+
+  console.log(error);
 
   if(error) {
     return res.sendStatus(422);
