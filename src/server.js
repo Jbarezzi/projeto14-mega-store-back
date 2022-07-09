@@ -8,6 +8,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors(), express.json());
+
 app.use(authRoute);
 app.use(categoriesRoute);
 
