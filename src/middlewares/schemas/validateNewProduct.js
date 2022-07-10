@@ -6,7 +6,7 @@ function validateNewProduct(req, res, next) {
         name: Joi.string().trim().required(),
         description: Joi.string().trim(),
         value: Joi.number().positive().required(),
-        image: Joi.string().pattern().trim().required(),
+        image: Joi.string().pattern(/(https?:\/\/.*\.(?:png|jpg))/i).trim().required(),
         categories: Joi.string().required(),
         discount: Joi.number().positive(),
         promotion: Joi.boolean(),
