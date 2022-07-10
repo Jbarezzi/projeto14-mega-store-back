@@ -1,11 +1,11 @@
 import Joi from "joi";
-import validateJoiSchema from "../validateJoiSchema";
+import validateJoiSchema from "../validateJoiSchema.js";
 
 function validateNewProduct(req, res, next) {
     const productSchema = Joi.object({
         name: Joi.string().trim().required(),
         description: Joi.string().trim(),
-        value: Joi.number().positive().required(),
+        price: Joi.number().positive().required(),
         image: Joi.string().pattern(/(https?:\/\/.*\.(?:png|jpg))/i).trim().required(),
         categories: Joi.string().required(),
         discount: Joi.number().positive(),
