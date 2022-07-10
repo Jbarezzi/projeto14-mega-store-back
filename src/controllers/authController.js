@@ -4,6 +4,7 @@ import joi from 'joi';
 import bcrypt from "bcrypt";
 import { db } from "./../database/mongo.js"
 
+
 async function createUser(req, res) {
 
   const user = req.body;

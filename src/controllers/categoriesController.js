@@ -1,31 +1,30 @@
 import { db } from '../database/mongo.js';
+import joi from 'joi';
 
-export async function getCategories(req, res) { 
+async function createCategories(req, res) { 
 
-  const categories = [
-     {name: "Casa",
-     description: "itens para casa em geral"
-     },
-     {name: "Escritório",
-     description: "itens para escritório em geral"
-     },
-     {name: "Informática",
-     description: "itens para informática em geral"
-     },
-     {name: "Escolar",
-     description: "itens de material escolar em geral"
-     },
-     {name: "Esportes",
-     description: "itens para prática de esportes em geral"
-     },
-     {name: "Livros",
-     description: "itens de livros em geral"
-     },
-  ]
+  const category = req.body;
 
-  await db.collection('categories').insertOne({
-    categories
+  const categorySchema = joi.object({
+    name: joi.string().required(),
+    description: joi.string().required()
   });
+
+  const { error } = categorySchema.validate(category);
+
+  if(error) {
+    return res.sendStatus(422); 
+  }
+
+  try {
+    await db.collection('categories').insertOne(category)
+    res.status(201).send('Category created successfully!')
+  } catch (error) {
+    return res.status(422).send("Couldn't create category!");
+  }
+}
+
+async function getCategories(req, res) { 
 
   const categoriesDB = await db
     .collection('categories')
@@ -35,3 +34,5 @@ export async function getCategories(req, res) {
   res.send(categoriesDB);
 
 }
+
+export { createCategories, getCategories };
