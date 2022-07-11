@@ -1,6 +1,8 @@
 import { db, objectId } from '../database/mongo.js';
 import joi from 'joi';
 import dayjs from 'dayjs';
+import bcrypt from 'bcrypt';
+//import { v4 as uuid } from 'uuid';
 
 
 export async function createPayments(req, res) {
@@ -10,23 +12,10 @@ export async function createPayments(req, res) {
   const { authorization } = req.headers; 
   const token = authorization?.replace('Bearer ', '');
 
-  const paymentSchema = joi.object({
-    cardName: joi.string().required(),
-    cardNumber: joi.string().required(),
-    securityNumber: joi.string().required(),
-    expirationDate: joi.string().required(),
-    valueQuota: joi.string().required()
-  }); 
-
-  const { error } = paymentSchema.validate(payment, { abortEarly: false });
-
-  if(error) {
-    return res.sendStatus(422);
-  }
 
   const cardNumberEncrypted = bcrypt.hashSync(payment.cardNumber, 10);
   const securityNumberEncrypted = bcrypt.hashSync(payment.securityNumber, 10);
-  const expirationDateEncrypted = bcrypt.hashSync(payment.expirattionDate, 10);
+  const expirationDateEncrypted = bcrypt.hashSync(payment.expirationDate, 10);
 
 
   const session = await db.collection('sessions').findOne({ token });
