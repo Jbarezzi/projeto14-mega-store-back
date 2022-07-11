@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoute from './routes/authRoute.js';
 import categoriesRoute from './routes/categoriesRoute.js';
 import productRoute from "./routes/productRoute.js";
+import paymentRoute from "./routes/paymentRoute.js";
 
 dotenv.config();
 
@@ -12,8 +13,8 @@ app.use(cors(), express.json());
 
 app.use(authRoute);
 app.use(categoriesRoute);
-//Casa, Escritório, Informática, Escolar, Esportes, Livros
 app.use(productRoute)
+app.use(paymentRoute)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
